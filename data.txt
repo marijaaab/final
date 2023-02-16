@@ -1,0 +1,11 @@
+G.Milanovac,5
+Ruma,2
+Kucevo,4
+Aleksinac,7
+Zupa,1
+Ivanjica,4
+Bor,4
+Beograd,7
+Novi Sad,4
+Nis,3
+Jagodina,5
