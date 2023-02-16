@@ -11,5 +11,5 @@ RUN pip install -r /my-app/requirements.txt
 
 # final configuration
 ENV FLASK_APP=hello
-EXPOSE 8000
+EXPOSE 8001
 CMD flask run --host 0.0.0.0 --port 8001
