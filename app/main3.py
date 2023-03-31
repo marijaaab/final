@@ -176,6 +176,10 @@ def index():
     filename = generate_plot()
     return render_template('index.html', filename=filename)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 if __name__ == '__main__':
     print("Hello")
     # generate_plot()
