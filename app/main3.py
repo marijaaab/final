@@ -176,11 +176,6 @@ def index():
     filename = generate_plot()
     return render_template('index.html', filename=filename)
 
-@app.rout('/about.html')
-def about():
-    return 'about.html'
-
-
 if __name__ == '__main__':
     print("Hello")
     # generate_plot()
