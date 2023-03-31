@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y python3 python3-pip
 COPY requirements.txt /my-app/
 COPY app/ /my-app
 RUN pip install -r /my-app/requirements.txt
+WORKDIR /my-app/
 
 # final configuration
 ENV FLASK_APP=main3.py
