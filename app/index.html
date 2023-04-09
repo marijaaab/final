@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>My Static Webpage</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   </head>
   <body>
     <header>
@@ -20,7 +21,39 @@
     <main>
       <h1>Welcome to My Static Webpage</h1>
       <p>This is a sample website made with HTML and CSS.</p>
-        <img src="{{ filename }}" alt="My Graphic">
+      <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<!--        <img src="{{ filename }}" alt="My Graphic">-->
     </main>
+    <script>
+      var data = JSON.parse('{{ data | tojson | safe}}');
+      var xValues = data.xOsa.split(',');
+      var yValues = data.yOsa.split(',');
+      var barColors = ["red", "green","blue","orange","brown","yellow","pink","gray","darkblue","turquoise","limegreen","magenta","white"];
+
+      new Chart("myChart", {
+        type: "bar",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          legend: {display: false},
+          title: {
+            display: true,
+            text: "World Wine Production 2018"
+          },
+          scales: {
+            yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+            }]
+          }
+        }
+      });
+    </script>
   </body>
 </html>

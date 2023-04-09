@@ -9,3 +9,5 @@ Beograd,7
 Novi Sad,4
 Nis,3
 Jagodina,5
+Pozarevac,8
+Beograd,3
