@@ -13,6 +13,7 @@ Pozarevac,8
 Beograd,3
 Zlatibor,2
 Leskovac,4
+Marija,4
 a,1
 b,5
 c,4
