@@ -9,3 +9,17 @@ Beograd,7
 Novi Sad,4
 Nis,3
 Jagodina,5
+Pozarevac,8
+Beograd,3
+Zlatibor,2
+Leskovac,4
+Marija,4
+a,1
+b,5
+c,4
+d,5
+e,5
+f,4
+g,6
+h,6
+i,8

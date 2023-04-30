@@ -1,7 +1,8 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background-color: powderblue;
+  background-image: url(images/background.jpg);
+  background-size: cover;
 }
 
 header{
@@ -40,9 +41,52 @@ main {
 }
 
 h1 {
-  color: red;
+  color: white;
+  -webkit-text-stroke: 0.5px black;
 }
 
 img {
   border: 1px solid black;
+}
+
+
+#myChart {
+    margin: 0 auto;
+    max-width: 800px;
+    background-color: #f2f2f2;
+}
+
+.bd-example {
+    max-width: 600px;
+    max-height: 600px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.card {
+    height: 450px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.card-title{
+    font-weight:bold;
+    font-size:15px;
+}
+
+.card-text {
+    font-size: 14px;
+}
+
+.card-img-top {
+    max-width: 450px;
+    max-height: 450px;
+    border: 0px;
+    margin:0 auto;
+}
+
+.card-body .btn-primary {
+    background-color: silver;
+    border: 1px solid black;
+    color: black;
 }
