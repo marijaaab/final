@@ -192,6 +192,10 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/facts')
+def didyouknow():
+    return render_template('didyouknow.html')
+
 if __name__ == '__main__':
     print("Hello")
     # generate_plot()
