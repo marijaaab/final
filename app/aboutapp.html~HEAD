@@ -12,9 +12,9 @@
       <nav>
         <ul>
           <li><a href="{{ url_for('index') }}">Home</a></li>
-          <li><a href="{{ url_for('about_app') }}">About App</a></li>
-          <li><a href="{{ url_for('did_you_know') }}">Did you know</a></li>
-          <li><a href="{{ url_for('about_author') }}">About Author</a></li>
+          <li><a href="{{ url_for('about') }}">About App</a></li>
+          <li><a href="{{ url_for('didyouknow') }}">Did you know</a></li>
+          <li><a href="{{ url_for('aboutauthor') }}">About Author</a></li>
         </ul>
       </nav>
     </header>
