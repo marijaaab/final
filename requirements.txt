@@ -1,2 +1,2 @@
-flask
-matplotlib
+flask==2.2.2
+matplotlib==3.6.3
