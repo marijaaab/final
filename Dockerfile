@@ -2,7 +2,7 @@
 FROM alpine
 
 # install app dependencies
-RUN apk update && apk add -y python3 python3-pip
+RUN apk update && apk add -y python3
 
 # install app
 COPY requirements.txt /my-app/
