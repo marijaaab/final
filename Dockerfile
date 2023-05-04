@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
-FROM alpine
+FROM python:3.8.10-alpine
 
 # install app dependencies
-RUN apk update && apk add python3 py3-pip
+RUN apk update
 
 # install app
 COPY requirements.txt /my-app/
