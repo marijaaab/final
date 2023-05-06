@@ -44,6 +44,7 @@ pipeline {
                     
                     dir('/home/marija/Desktop/git_projects/final'){
                         sh "docker build -t final-test:latest ."
+                        sh "docker image prune --force"
                     }
                     
                 }
