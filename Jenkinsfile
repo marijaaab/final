@@ -5,12 +5,16 @@ pipeline {
         }
     }
     
-//     environment {
-//         // Define the credentials ID and repository URL
+    environment {
+        // Define the credentials ID and repository URL
 //         GIT_CREDENTIALS_ID = 'GH_TOKEN'
 //         GIT_TOKEN = credentials('GH_TOKEN')
 //         GIT_REPO_URL = 'https://${GIT_TOKEN}@github.com/marijaaab/final.git'
-//     }
+        IMAGE_NAME = 'final-test'
+        CONTAINER_NAME = 'final-test-app'
+        HOST_PORT = '8001'
+        CONTAINER_PORT = '8001'
+    }
     
     stages {
             
@@ -20,7 +24,7 @@ pipeline {
                 
                 script {
                     
-                    sh "docker build -t final-test:latest ."
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
                     sh "docker image prune --force"
                     
                 }
@@ -35,14 +39,14 @@ pipeline {
                 
                 script {
                     
-                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep final-test-app").trim()
+                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${CONTAINER_NAME}").trim()
             
                     if (containerExists) {
-                        sh "docker stop final-test-app"
-                        sh "docker rm final-test-app"
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm ${CONTAINER_NAME}"
                     }
                     
-                    sh "docker run -d --name final-test-app -p 8001:8001 final-test:latest"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}:latest"
                     
                 }
                 
@@ -53,7 +57,7 @@ pipeline {
     }
     post { 
         success { 
-            println("The image is built and container is up! Visit: " + "http://localhost:8001")
+            println("The image is built and container is up! Visit: " + "http://localhost:${HOST_PORT}")
         }
     }
 }
