@@ -13,4 +13,4 @@ WORKDIR /my-app/
 # final configuration
 # ENV FLASK_APP=main3.py
 EXPOSE 8001
-CMD flask run --host 0.0.0.0 --port 8001
+CMD flask run --host 0.0.0.0 --port 8001 main3.py
