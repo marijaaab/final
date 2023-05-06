@@ -5,12 +5,12 @@ pipeline {
         }
     }
     
-    environment {
-        // Define the parameters for Docker image and container
-        IMAGE_NAME = 'final-test'
-        CONTAINER_NAME = 'final-test-app'
-        HOST_PORT = '8001'
-        CONTAINER_PORT = '8001'
+    parameters {
+        string(name: 'IMAGE_NAME', defaultValue: 'final-test', description: 'Name of Docker image')
+        string(name: 'CONTAINER_NAME', defaultValue: 'final-test-app', description: 'Name of Docker container')
+        string(name: 'HOST_PORT', defaultValue: '8001', description: 'Host port for exposing the container')
+        string(name: 'CONTAINER_PORT', defaultValue: '8001', description: 'Container port for the application')
+        string(name: 'DOCKERFILE_PATH', defaultValue: '.', description: 'Path to Dockerfile')
     }
     
     stages {      
@@ -18,7 +18,7 @@ pipeline {
         stage ("Build Docker image") {  
             steps {   
                 script { 
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    sh "docker build -t ${params.IMAGE_NAME}:latest ."
                 }          
             }
         }
@@ -26,13 +26,13 @@ pipeline {
         stage ("Run Docker container") {
             steps {
                 script {
-                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${CONTAINER_NAME}").trim()
+                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${params.CONTAINER_NAME}").trim()
                     if (containerExists) {
-                        sh "docker stop ${CONTAINER_NAME}"
-                        sh "docker rm ${CONTAINER_NAME}"
+                        sh "docker stop ${params.CONTAINER_NAME}"
+                        sh "docker rm ${params.CONTAINER_NAME}"
                         sh "docker image prune --force"  
                     }
-                    sh "docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}:latest"
+                    sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${params.CONTAINER_PORT} ${params.IMAGE_NAME}:latest"
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
     
     post { 
         success { 
-            println("The image is built and container is up! Visit: " + "http://localhost:${HOST_PORT}")
+            println("The image is built and container is up! Visit: " + "http://localhost:${params.HOST_PORT}")
         }
     }
 }
