@@ -13,37 +13,15 @@ pipeline {
     }
     
     stages {
-        
-        stage ("Clean up & SCM Clone") {
             
-            steps {
-                
-                script {
-                    
-                    if(fileExists('final')){
-                        println ("Repository called final already exists;\n Removing it ...")
-                        sh "rm -rf final"
-                    }
-                    println("Cloning final.git ...")
-                    sh "git clone $GIT_REPO_URL"
-                    sh "ls -al"
-                    
-                }
-                
-            }
-            
-        }
-        
         stage ("Build the image") {
             
             steps {
                 
                 script {
                     
-                    dir('final'){
-                        sh "docker build -t final-test:latest ."
-                        sh "docker image prune --force"
-                    }
+                    sh "docker build -t final-test:latest ."
+                    sh "docker image prune --force"
                     
                 }
                 
@@ -64,9 +42,7 @@ pipeline {
                         sh "docker rm final-test-app"
                     }
                     
-                    dir('final'){
-                        sh "docker run -d --name final-test-app -p 8001:8001 final-test:latest"
-                    }
+                    sh "docker run -d --name final-test-app -p 8001:8001 final-test:latest"
                     
                 }
                 
