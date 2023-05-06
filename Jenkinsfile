@@ -19,7 +19,6 @@ pipeline {
             steps {   
                 script { 
                     sh "docker build -t ${IMAGE_NAME}:latest ."
-                    sh "docker image prune --force"  
                 }          
             }
         }
@@ -31,6 +30,7 @@ pipeline {
                     if (containerExists) {
                         sh "docker stop ${CONTAINER_NAME}"
                         sh "docker rm ${CONTAINER_NAME}"
+                        sh "docker image prune --force"  
                     }
                     sh "docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}:latest"
                 }
