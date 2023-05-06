@@ -10,7 +10,6 @@ pipeline {
         string(name: 'CONTAINER_NAME', defaultValue: 'final-test-app', description: 'Name of Docker container')
         string(name: 'HOST_PORT', defaultValue: '8001', description: 'Host port for exposing the container')
         string(name: 'CONTAINER_PORT', defaultValue: '8001', description: 'Container port for the application')
-        string(name: 'DOCKERFILE_PATH', defaultValue: '.', description: 'Path to Dockerfile')
     }
     
     stages {      
