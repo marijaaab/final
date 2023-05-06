@@ -7,7 +7,7 @@ RUN apk update
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip --no-cache-dir install -r requirements.txt
 
 # final configuration
 ENV FLASK_APP=main3.py
