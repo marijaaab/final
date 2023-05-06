@@ -1,13 +1,15 @@
 # syntax=docker/dockerfile:1
 FROM python:3.8.10-alpine
 
-# install app dependencies
-RUN apk update
+# # install app dependencies
+# RUN apk update
 
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN pip --no-cache-dir install -r requirements.txt
+RUN apk add --no-cache build-base && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del build-base
 
 # final configuration
 ENV FLASK_APP=main3.py
