@@ -1,5 +1,3 @@
-properties([pipelineTriggers([githubPush()])])
-
 pipeline {
     agent {
         node {
@@ -21,15 +19,15 @@ pipeline {
             steps {
                 
                 script {
-                    dir('/home/marija/Desktop/git_projects'){
-                        if(fileExists('final')){
-                            println ("Repository called final already exists;\n Removing it ...")
-                            sh "rm -rf final"
-                        }
-                        println("Cloning final.git ...")
-                        sh "git clone $GIT_REPO_URL"
-                        sh "ls -al"
+                    
+                    if(fileExists('final')){
+                        println ("Repository called final already exists;\n Removing it ...")
+                        sh "rm -rf final"
                     }
+                    println("Cloning final.git ...")
+                    sh "git clone $GIT_REPO_URL"
+                    sh "ls -al"
+                    
                 }
                 
             }
@@ -42,7 +40,7 @@ pipeline {
                 
                 script {
                     
-                    dir('/home/marija/Desktop/git_projects/final'){
+                    dir('final'){
                         sh "docker build -t final-test:latest ."
                         sh "docker image prune --force"
                     }
@@ -66,7 +64,7 @@ pipeline {
                         sh "docker rm final-test-app"
                     }
                     
-                    dir('/home/marija/Desktop/final'){
+                    dir('final'){
                         sh "docker run -d --name final-test-app -p 8001:8001 final-test:latest"
                     }
                     
