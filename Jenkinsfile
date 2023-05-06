@@ -15,7 +15,7 @@ pipeline {
     
     stages {      
         
-        stage ("Build the image") {  
+        stage ("Build Docker image") {  
             steps {   
                 script { 
                     sh "docker build -t ${IMAGE_NAME}:latest ."
@@ -24,7 +24,7 @@ pipeline {
             }
         }
         
-        stage ("Run the container") {
+        stage ("Run Docker container") {
             steps {
                 script {
                     def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${CONTAINER_NAME}").trim()
