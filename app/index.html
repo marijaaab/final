@@ -22,27 +22,27 @@
     <main>
       <h1>Welcome to My Static Webpage</h1>
       <p style="color:white">This is a sample website made with HTML and CSS.</p>
-      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <canvas id="myChart2021"></canvas>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <canvas id="myChart2021"></canvas>
+            </div>
+            <div class="carousel-item">
+              <canvas id="myChart2016"></canvas>
+            </div>
+            <div class="carousel-item">
+              <canvas id="myChart2012"></canvas>
+            </div>
           </div>
-          <div class="carousel-item">
-            <canvas id="myChart2016"></canvas>
-          </div>
-          <div class="carousel-item">
-            <canvas id="myChart2012"></canvas>
-          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
 <!--        <img src="{{ filename }}" alt="My Graphic">-->
     </main>
     <script>
@@ -66,7 +66,8 @@
           datasets: [{
             backgroundColor: barColors,
             data: yValues2021,
-            borderWidth: 3
+            borderWidth: 1,
+            borderColor: '#333'
           }]
         },
         options: {
@@ -76,12 +77,19 @@
             padding: 10,
             display: true,
             text: "Olympic Games 2021 Tokyo - TOP 15 Total Number of medals",
-            fontSize: 16
+            fontSize: 16,
+            fontColor: '#333'
           },
           scales: {
             yAxes: [{
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  fontColor: '#333'
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                  fontColor: '#333'
                 }
             }]
           }
@@ -98,7 +106,8 @@
           datasets: [{
             backgroundColor: barColors,
             data: yValues2016,
-            borderWidth: 3
+            borderWidth: 1,
+            borderColor: '#333'
           }]
         },
         options: {
@@ -108,12 +117,19 @@
             padding: 10,
             display: true,
             text: "Olympic Games 2016 Rio - TOP 15 Total Number of medals",
-            fontSize: 16
+            fontSize: 16,
+            fontColor: '#333'
           },
           scales: {
             yAxes: [{
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  fontColor: '#333'
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                  fontColor: '#333'
                 }
             }]
           }
@@ -129,7 +145,8 @@
           datasets: [{
             backgroundColor: barColors,
             data: yValues2012,
-            borderWidth: 3
+            borderWidth: 1,
+            borderColor: '#333'
           }]
         },
         options: {
@@ -139,12 +156,19 @@
             padding: 10,
             display: true,
             text: "Olympic Games 2012 London - TOP 15 Total Number of medals",
-            fontSize: 16
+            fontSize: 16,
+            fontColor: '#333'
           },
           scales: {
             yAxes: [{
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  fontColor: '#333'
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                  fontColor: '#333'
                 }
             }]
           }

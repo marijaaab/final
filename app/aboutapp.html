@@ -6,6 +6,16 @@
     <title>My Static Webpage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      #tooltip {
+        display: none;
+        position: absolute;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -19,9 +29,54 @@
       </nav>
     </header>
     <main>
-      <h1>About this application</h1>
-      <p>This app is made using Flask (Python). The graphic which is generated on the main page represents the </p>
-        <img src="{{ filename }}" alt="My Graphic">
+      <div style="color:black">
+        <h1>About this application</h1>
+        <p style="color:white">This app is made using Flask (Python). The graphic which is generated on the main page represents the </p>
+        <img src="static/images/skica2.png" usemap="#imagemap">
+        <map name="imagemap">
+          <area shape="rect" coords="85,289,210,440" data-info="GitHub repository" onclick="aboutGitHub()">
+          <area shape="rect" coords="332,442,380,500" data-info="Developer" onclick="aboutDeveloper()">
+          <area shape="rect" coords="257,78,441,338" data-info="Jenkins" onclick="aboutJenkins()">
+          <area shape="rect" coords="507,73,695,170" data-info="AWS EC2" onclick="aboutEC2()">
+          <area shape="rect" coords="522,181,685,248" data-info="Application" onclick="aboutApplication()">
+          <area shape="rect" coords="507,250,701,338" data-info="AWS EC2" onclick="aboutEC2()">
+          <!-- add more areas here -->
+        </map>
+        <div id="tooltip"></div>
+      </div>
     </main>
+    <script>
+      function aboutGitHub() {
+        alert("This is a GitHub repository which contains all the source code of the application, as well as the Dockerfile and Jenkinsfile");
+      }
+      function aboutDeveloper() {
+        alert("This is a developer. She is working on a code and when she is happy with the changes she made, she pushed her code to the GitHub repository.");
+      }
+      function aboutEC2() {
+        alert("This is an EC2 instance which is hosted on AWS.");
+      }
+      function aboutJenkins() {
+        alert("This is a Jenkins server. This is where the code is automatically built on each push to the GitHub repo. After the code is built, the application is deployed to the Docker container inside the EC2 AWS instance.");
+      }
+      function aboutApplication() {
+        alert("This is your application which is located inside the Docker container, and that Docker container is running on the AWS EC2 instance. You can see the content of your web application by accessing http://<ip_address_of_ec2_instance>:<dedicated_port>");
+      }
+      const areas = document.getElementsByTagName('area');
+      const tooltip = document.getElementById('tooltip');
+
+      for (let i = 0; i < areas.length; i++) {
+        areas[i].addEventListener('mouseover', function(e) {
+          const info = e.target.dataset.info;
+          tooltip.textContent = info;
+          tooltip.style.display = 'block';
+          tooltip.style.top = e.pageY + 'px';
+          tooltip.style.left = e.pageX + 'px';
+        });
+
+        areas[i].addEventListener('mouseout', function(e) {
+          tooltip.style.display = 'none';
+        });
+      }
+    </script>
   </body>
 </html>

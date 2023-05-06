@@ -2,8 +2,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   background-image: url(images/background.jpg);
+  background-repeat: no-repeat;
   background-size: cover;
   color: white;
+  min-height: 100vh;
 }
 
 header{
@@ -33,7 +35,11 @@ li {
 
 a {
   color: #fff;
-  text-decoration: none;
+  text-decoration: none !important;
+}
+
+li a:hover {
+    color: #fff;
 }
 
 main {
@@ -56,15 +62,18 @@ canvas {
     background-color: #f2f2f2;
 }
 
-.bd-example {
-    max-width: 600px;
-    max-height: 600px;
-    text-align: center;
+#carouselExampleControls {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.carousel-inner {
+    width: 80%;
     margin: 0 auto;
 }
 
 .card {
-    height: 450px;
+    height: 100%;
     padding: 10px;
     border: 1px solid black;
     color: black;
@@ -85,16 +94,19 @@ canvas {
 
 .card-text {
     font-size: 14px;
+    margin: 0 auto;
 }
 
 .card-img-top {
-    max-width: 450px;
-    max-height: 450px;
     border: 0px;
-    margin:0 auto;
+    height: 115px;
+    margin: 0 auto;
+    border-bottom: 1px solid black;
 }
 
-.card-body .btn-primary {
+.card .btn-primary {
+    width: 40%;
+    margin: 0 auto;
     background-color: silver;
     border: 1px solid black;
     color: black;
@@ -102,6 +114,10 @@ canvas {
 
 .container {
     padding: 30px 0;
+}
+
+.row {
+    padding: 20px 0;
 }
 
 .my-img {
