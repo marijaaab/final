@@ -7,9 +7,8 @@ FROM python:3.8.10-alpine
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN apk add --no-cache build-base && \
+RUN apk update && \
     pip install --no-cache-dir -r requirements.txt && \
-    apk del build-base
 
 # final configuration
 ENV FLASK_APP=main3.py
