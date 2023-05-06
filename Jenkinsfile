@@ -1,5 +1,3 @@
-properties([pipelineTriggers([githubPush()])])
-
 pipeline {
     agent {
         node {
@@ -8,77 +6,41 @@ pipeline {
     }
     
     environment {
-        // Define the credentials ID and repository URL
-        GIT_CREDENTIALS_ID = 'GH_TOKEN'
-        GIT_TOKEN = credentials('GH_TOKEN')
-        GIT_REPO_URL = 'https://${GIT_TOKEN}@github.com/marijaaab/final.git'
+        // Define the parameters for Docker image and container
+        IMAGE_NAME = 'final-test'
+        CONTAINER_NAME = 'final-test-app'
+        HOST_PORT = '8001'
+        CONTAINER_PORT = '8001'
     }
     
-    stages {
+    stages {      
         
-        stage ("Clean up & SCM Clone") {
-            
-            steps {
-                
-                script {
-                    dir('/home/marija/Desktop/git_projects'){
-                        if(fileExists('final')){
-                            println ("Repository called final already exists;\n Removing it ...")
-                            sh "rm -rf final"
-                        }
-                        println("Cloning final.git ...")
-                        sh "git clone $GIT_REPO_URL"
-                        sh "ls -al"
-                    }
-                }
-                
+        stage ("Build the image") {  
+            steps {   
+                script { 
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    sh "docker image prune --force"  
+                }          
             }
-            
-        }
-        
-        stage ("Build the image") {
-            
-            steps {
-                
-                script {
-                    
-                    dir('/home/marija/Desktop/git_projects/final'){
-                        sh "docker build -t final-test:latest ."
-                    }
-                    
-                }
-                
-            }
-            
         }
         
         stage ("Run the container") {
-            
             steps {
-                
                 script {
-                    
-                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep final-test-app").trim()
-            
+                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${CONTAINER_NAME}").trim()
                     if (containerExists) {
-                        sh "docker stop final-test-app"
-                        sh "docker rm final-test-app"
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm ${CONTAINER_NAME}"
                     }
-                    
-                    dir('/home/marija/Desktop/final'){
-                        sh "docker run -d --name final-test-app -p 8001:8001 final-test:latest"
-                    }
-                    
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}:latest"
                 }
-                
             }
-            
         }
-        
     }
+    
     post { 
         success { 
-            println("The image is built and container is up! Visit: " + "http://localhost:8001")
+            println("The image is built and container is up! Visit: " + "http://localhost:${HOST_PORT}")
         }
     }
 }
