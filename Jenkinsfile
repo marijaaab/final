@@ -5,12 +5,12 @@ pipeline {
         }
     }
     
-    environment {
-        // Define the credentials ID and repository URL
-        GIT_CREDENTIALS_ID = 'GH_TOKEN'
-        GIT_TOKEN = credentials('GH_TOKEN')
-        GIT_REPO_URL = 'https://${GIT_TOKEN}@github.com/marijaaab/final.git'
-    }
+//     environment {
+//         // Define the credentials ID and repository URL
+//         GIT_CREDENTIALS_ID = 'GH_TOKEN'
+//         GIT_TOKEN = credentials('GH_TOKEN')
+//         GIT_REPO_URL = 'https://${GIT_TOKEN}@github.com/marijaaab/final.git'
+//     }
     
     stages {
             
