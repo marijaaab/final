@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
-FROM python:3.8.10-alpine
+# FROM python:3.8.10-alpine
+FROM ubuntu:20.04
+
 
 # # install app dependencies
 # RUN apk update
