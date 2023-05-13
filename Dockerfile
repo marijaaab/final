@@ -1,7 +1,5 @@
 # syntax=docker/dockerfile:1
-# FROM python:3.8.10-alpine
 FROM python:3.8.10-alpine
-
 
 # # install app dependencies
 # RUN apk update
@@ -9,7 +7,8 @@ FROM python:3.8.10-alpine
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN apk update && apk add gcc g++ zlib-dev make python3-dev && pip3 install wheel && pip install -r requirements.txt
+RUN apk update && \
+    pip install --no-cache-dir -r requirements.txt
     
 # final configuration
 ENV FLASK_APP=main3.py

@@ -1,5 +1,4 @@
 import math
-import matplotlib.pyplot as plt
 
 def calculate():
     SLR = 8.0
