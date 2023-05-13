@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # FROM python:3.8.10-alpine
-FROM ubuntu:20.04
+FROM python:3.8.10-alpine
 
 
 # # install app dependencies
@@ -9,7 +9,7 @@ FROM ubuntu:20.04
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN apt-get update && apt-get install -y python3 python3-pip && pip install -r requirements.txt
+RUN apk update && apk add gcc g++ zlib-dev make python3-dev && pip3 install wheel && pip3 install matplotlibpip install -r requirements.txt
     
 # final configuration
 ENV FLASK_APP=main3.py
