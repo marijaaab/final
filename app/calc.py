@@ -26,7 +26,7 @@ def calculate():
     Ps = 35.0
     Pr = 35.0
     A = 0.0
-    T = [t for t in range(0, 501, 1)]
+    T = [t for t in range(0, 1000, 1)]
     # T = 0
     Ie_eff = []
 
