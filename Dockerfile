@@ -9,7 +9,7 @@ FROM python:3.8.10-alpine
 # install app
 WORKDIR /my-app/
 COPY app/ requirements.txt .
-RUN apk update && apk add gcc g++ zlib-dev make python3-dev && pip3 install wheel && pip install -r requirements.txt
+RUN apk add gcc g++ zlib-dev make python3-dev py-numpy-dev jpeg-dev && pip3 install wheel && pip3 install -r requirements.txt
     
 # final configuration
 ENV FLASK_APP=main3.py
