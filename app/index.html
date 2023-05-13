@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
   </head>
   <body>
     <header>
@@ -26,7 +30,10 @@
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <canvas id="myChart2021"></canvas>
+              <canvas id="myChartR"></canvas>
+            </div>
+            <div class="carousel-item">
+              <canvas id="myChartMOS"></canvas>
             </div>
             <div class="carousel-item">
               <canvas id="myChart2016"></canvas>
@@ -47,6 +54,18 @@
 <!--        <img src="{{ filename }}" alt="My Graphic">-->
     </main>
     <script>
+
+      var dataR = JSON.parse('{{ dataR | tojson }}');
+      const xValues = dataR['xOsa'];
+      const yValues1 = dataR['yOsa1'];
+      const yValues2 = dataR['yOsa2'];
+      const yValues3 = dataR['yOsa3'];
+      const yValues4 = dataR['yOsa4'];
+      const MOS1 = dataR['MOS1'];
+      const MOS2 = dataR['MOS2'];
+      const MOS3 = dataR['MOS3'];
+      const MOS4 = dataR['MOS4'];
+
       var data2021 = JSON.parse('{{ data2021 | tojson | safe}}');
       var data2016 = JSON.parse('{{ data2016 | tojson | safe}}');
       var data2012 = JSON.parse('{{ data2012 | tojson | safe}}');
@@ -60,43 +79,219 @@
                         "silver", "maroon", "white", "olive", "purple", "aqua", "burlywood", "chartreuse", "teal",
                         "coral", "lightgray", "crimson", "lightcoral","powderblue", "gold"];
 
-      new Chart("myChart2021", {
-        type: "bar",
+      var chart = new Chart("myChartR", {
+        type: "line",
         data: {
-          labels: xValues2021,
+          labels: xValues,
           datasets: [{
-            backgroundColor: barColors,
-            data: yValues2021,
-            borderWidth: 1,
-            borderColor: '#333'
-          }]
+            fill: false,
+            label: 'Ppl = 0%',
+            backgroundColor: 'magenta',
+            borderColor: 'magenta',
+            borderWidth: 2,
+            data: yValues1,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 1%',
+            backgroundColor: 'red',
+            borderColor: 'red',
+            borderWidth: 2,
+            data: yValues2,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 2%',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            borderWidth: 2,
+            data: yValues3,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 3%',
+            backgroundColor: 'green',
+            borderColor: 'green',
+            borderWidth: 2,
+            data: yValues4,
+          },
+
+          ]
         },
         options: {
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            titleMarginBottom: 10,
+            bodySpacing: 10,
+            callbacks: {
+              title: function(data, index) {
+                  //Return value for title
+                  return 't = ' + data[0].index + ' ms';
+              },
+            }
+          },
           layout: {padding: 20},
-          legend: {display: false},
+          legend: {
+            display: true,
+            position: 'top',
+          },
+          elements: {
+            point:{
+              radius: 0
+            }
+          },
           title: {
             padding: 10,
             display: true,
-            text: "Olympic Games 2021 Tokyo - TOP 15 Total Number of medals",
-            fontSize: 16,
+            text: "R (E-model)",
+            fontSize: 25,
             fontColor: '#333'
           },
           scales: {
             yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  fontColor: '#333'
-                }
+              scaleLabel: {
+                display: true,
+                labelString: 'R',
+                color: 'black',
+                fontSize: 15
+              },
+              grid: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true,
+                fontColor: '#333'
+              }
             }],
             xAxes: [{
-                ticks: {
-                  fontColor: '#333'
-                }
+              scaleLabel: {
+                display: true,
+                labelString: 't [ms]',
+                color: 'black',
+                fontSize: 15
+              },
+              grid: {
+                display: false
+              },
+              ticks: {
+                userCallback: function(item, index) {
+                  if (!(index % 50)) return item;
+                },
+                autoSkip: false,
+                beginAtZero: true,
+                fontColor: '#333',
+              }
             }]
-          }
+          },
+        }
+      });
+
+      new Chart("myChartMOS", {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [{
+            fill: false,
+            label: 'Ppl = 0%',
+            backgroundColor: 'magenta',
+            borderColor: 'magenta',
+            borderWidth: 2,
+            data: MOS1,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 1%',
+            backgroundColor: 'red',
+            borderColor: 'red',
+            borderWidth: 2,
+            data: MOS2,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 2%',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            borderWidth: 2,
+            data: MOS3,
+          },
+          {
+            fill: false,
+            label: 'Ppl = 3%',
+            backgroundColor: 'green',
+            borderColor: 'green',
+            borderWidth: 2,
+            data: MOS4,
+          },
+
+          ]
         },
-        chartArea: {
-          backgroundColor: 'white'
+        options: {
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+            titleMarginBottom: 10,
+            bodySpacing: 10,
+            callbacks: {
+              title: function(data, index) {
+                  //Return value for title
+                  return 't = ' + data[0].index + ' ms';
+              },
+            }
+          },
+          layout: {padding: 20},
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          elements: {
+            point:{
+              radius: 0
+            }
+          },
+          title: {
+            padding: 10,
+            display: true,
+            text: "MOS (E-model)",
+            fontSize: 25,
+            fontColor: '#333'
+          },
+          scales: {
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'R',
+                color: 'black',
+                fontSize: 15
+              },
+              grid: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true,
+                fontColor: '#333'
+              }
+            }],
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 't [ms]',
+                color: 'black',
+                fontSize: 15
+              },
+              grid: {
+                display: false
+              },
+              ticks: {
+                userCallback: function(item, index) {
+                  if (!(index % 50)) return item;
+                },
+                autoSkip: false,
+                beginAtZero: true,
+                fontColor: '#333',
+              }
+            }]
+          },
         }
       });
 
@@ -179,8 +374,5 @@
         }
       });
     </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
