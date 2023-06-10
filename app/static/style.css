@@ -58,13 +58,16 @@ img {
 
 canvas {
     margin: 0 auto;
-    max-width: 800px;
     background-color: #f2f2f2;
 }
 
 #carouselExampleControls {
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
+}
+
+.carousel-control-prev , .carousel-control-next {
+    width: auto;
 }
 
 .carousel-inner {
