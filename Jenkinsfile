@@ -41,7 +41,7 @@ pipeline {
     post { 
         success { 
             println("The image is built and container is up! Visit: " + "http://localhost:${params.HOST_PORT}")
-            addShortText(text: params.IMAGE_VERSION, background: '#Ee98d3', borderColor: 'black', border: 1)
+            addShortText(text: " ${params.IMAGE_NAME}:${params.IMAGE_VERSION} ", background: '#Ee98d3', borderColor: 'black', border: 1)
         }
     }
 }
