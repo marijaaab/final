@@ -1,31 +1,31 @@
 import math
 
 def calculate():
-    SLR = 8.0
-    RLR = 2.0
+    SLR = 8
+    RLR = 2
     OLR = SLR + RLR
-    STMR = 15.0
-    LSTR = 18.0
-    Ds = 3.0
-    Dr = 3.0
+    STMR = 15
+    LSTR = 18
+    Ds = 3
+    Dr = 3
     # TELR = 65.0
     TELR = 65
-    WEPL = 110.0
+    WEPL = 110
     # T = 0.0
     # Tr = 0.0
     # Ta = 0.0
-    sT = 1.0
-    mT = 100.0
-    qdu = 1.0
-    Ie = 0.0
+    sT = 1
+    mT = 100
+    qdu = 1
+    Ie = 0
     Bpl = 4.3
-    Ppl = [0.0, 1.0, 2.0, 3.0]
-    BurstR = 1.0
-    Nc = -70.0
-    Nfor = -64.0
-    Ps = 35.0
-    Pr = 35.0
-    A = 0.0
+    Ppl = [0, 1, 2, 3]
+    BurstR = 1
+    Nc = -70
+    Nfor = -64
+    Ps = 35
+    Pr = 35
+    A = 0
     T = [t for t in range(0, 1000, 1)]
     # T = 0
     Ie_eff = []
@@ -44,11 +44,11 @@ def calculate():
         Ta = t
         Tr = 2*t
         Nfo = Nfor + RLR
-        Pre = Pr + 10 * math.log10(1+math.pow(10, ((10.0-LSTR)/10.0)))/math.log10(10)
-        Nor = RLR - 121.0 + Pre + 0.008 * math.pow((Pre - 35.0), 2)
-        Nos = Ps - SLR - Ds - 100.0 + 0.004 * math.pow((Ps - OLR - Ds - 14.0), 2)
+        Pre = Pr + 10 * math.log10(1+math.pow(10, ((10-LSTR)/10)))/math.log10(10)
+        Nor = RLR - 121 + Pre + 0.008 * math.pow((Pre - 35), 2)
+        Nos = Ps - SLR - Ds - 100 + 0.004 * math.pow((Ps - OLR - Ds - 14), 2)
         No = 10*math.log10(math.pow(10, (Nc/10)) + math.pow(10, (Nos/10)) + math.pow(10, (Nor/10)) + math.pow(10, (Nfo/10)))
-        Ro = 15.0 - (1.5 * (SLR + No))
+        Ro = 15 - (1.5 * (SLR + No))
 
         if qdu < 1:
             Q = 37 - 15 * math.log10(1) / math.log10(10)
@@ -56,18 +56,18 @@ def calculate():
             Q = 37 - 15 * math.log10(qdu) / math.log10(10)
 
         G = 1.07+0.258*Q+0.0602*math.pow(Q, 2)
-        Z = 46.0/30.0 - G/40.0
+        Z = 46/30 - G/40
         Y = (Ro-100)/15+46/8.4-G/9
 
-        Xolr = OLR + 0.2 * (64.0 + No - RLR)
-        Iolr = 20*(math.pow(1.0 + math.pow(Xolr/8.0, 8), 1/8) - Xolr/8.0)
-        STMRo = -10 * math.log10(math.pow(10, (-STMR/10.0))+math.exp(-t/4.0) * math.pow(10, (-TELR/10)))
+        Xolr = OLR + 0.2 * (64 + No - RLR)
+        Iolr = 20*(math.pow(1 + math.pow(Xolr/8, 8), 1/8) - Xolr/8)
+        STMRo = -10 * math.log10(math.pow(10, (-STMR/10))+math.exp(-t/4) * math.pow(10, (-TELR/10)))
         Ist = 12*math.pow(1+pow((STMRo-13)/6, 8), 1/8)-28*math.pow(1+math.pow((STMRo+1)/19.4, 35), 1/35)-13*math.pow(1+math.pow((STMRo-3)/33, 13), 1/13)+29
         Iq = 15 * math.log10(1 + math.pow(10, Y) + math.pow(10, Z))
 
         Is = Iolr + Ist + Iq
 
-        Rle = 10.5 * (WEPL + 7.0) * math.pow((Tr + 1.0), -0.25)
+        Rle = 10.5 * (WEPL + 7) * math.pow((Tr + 1), -0.25)
         if Ta == 0:
             X = 0
         else:
@@ -160,46 +160,7 @@ def calculate():
 
         MOS4.append(MOSp4)
 
-    # plt.plot(T,R)
-    # plt.show()
-    # dataR = {'xOsa': T, 'yOsa': R, 'MOS': MOS}
     dataR = {'xOsa': T, 'yOsa1': R1, 'yOsa2': R2, 'yOsa3': R3, 'yOsa4': R4, 'MOS1': MOS1, 'MOS2': MOS2, 'MOS3': MOS3, 'MOS4': MOS4,}
 
     return dataR
 
-
-# Xolr = OLR + 0.2 * (64.0 + N0 - RLR)
-# Iolr = 20*(math.pow(1.0 + math.pow(Xolr/8.0, 8), 1/8) - Xolr/8.0)
-# STMR0 = -10 * math.log10(math.pow(10, (-STMR/10.0))+math.exp(-T/4.0) * math.pow(10, (-TELR/10)))
-# Ist = 12*(math.pow((1+math.pow((STMR0-13.0)/6.0, 8)), 1/8)) - 28*(math.pow((1+math.pow((STMR0+1.0)/19.4, 35)), 1/35)) - 13*(math.pow((1+math.pow((STMR0-3.0)/33.0, 13)), 1/13))+29.0
-#
-# Q = 37.0 - 15 * math.log10(qdu)
-# G = 1.07 + 0.258 * Q + 0.0602 * math.pow(Q, 2)
-# Y = (R0-100.0)/15.0 + 46/8.4 - G/9.0
-# Z = 46.0/30.0 - G/40.0
-# Iq = 15 * math.log10(1 + math.pow(10, Y) + math.pow(10, Z))
-# Is = Iolr + Ist + Iq
-#
-# if T < 1:
-#     Idte = 0.0
-# else:
-#     TERV = TELR - 40 * math.log10((1.0+T/10.0)/(1.0+T/150.0)) + 6*math.exp(-0.3*T*T)
-#     Re = 80.0 + 2.5 * (TERV - 14.0)
-#     Roe = -1.5 * (N0 - RLR)
-#     Idte = ((Roe - Re)/2.0 + math.sqrt(math.pow((Roe-Re), 2)/4.0 + 100.0) - 1.0) * (1.0 - math.exp(-T))
-#
-# Rle = 10.5 * (WEPL + 7.0) * math.pow((Tr + 1.0), -0.25)
-# Idle = (R0 - Rle)/2.0 + math.sqrt((math.pow(R0-Rle, 2))/4.0 + 169.0)
-#
-# if Ta <= mT:
-#     Idd = 0.0      # za Ta <  mT
-# else:
-#     X = (math.log10(Ta/mT))/(math.log10(2))
-#     Idd = 25.0*((1.0+X**6)**(1/6.0)-3*(1.0+(X/3.0)**6)**(1/6.0)+2.0)
-#
-# Id = Idte + Idle + Idd
-#
-# Ie_eff = Ie + (95.0 - Ie) * Ppl / (Ppl/BurstR + Bpl)
-#
-# R = R0 - Is - Id - Ie_eff + A
-# print(R)

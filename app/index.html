@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>My Static Webpage</title>
+    <title>My Webpage</title>
     <link rel="icon" href="static/images/heart.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
@@ -24,12 +24,15 @@
       </nav>
     </header>
     <main>
-      <h1>Welcome to My Static Webpage</h1>
-      <p style="color:white">This is a sample website made with HTML and CSS.</p>
+      <h1>Welcome!</h1>
+      <p style="color:white;font-size:20px">Mean one-way delay (<b>t</b>) and packet-loss probability (<b>Ppl</b>) impact
+        on  rating factor (<b>R</b>) and mean opinion score (<b>MOS</b>) estimation</p>
+      <p style="color:white;font-size:20px">Coder: G.711.</p>
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <canvas id="myChartR"></canvas>
+              <br><br>
             </div>
             <div class="carousel-item">
               <canvas id="myChartMOS"></canvas>
@@ -126,7 +129,7 @@
             callbacks: {
               title: function(data, index) {
                   //Return value for title
-                  return 't = ' + data[0].index + ' ms';
+                  return '               t = ' + data[0].index + ' ms';
               },
             }
           },
@@ -143,7 +146,7 @@
           title: {
             padding: 10,
             display: true,
-            text: "R (E-model)",
+            text: "Zavisnost ocene R od verovatnoce gubitaka paketa Ppl",
             fontSize: 25,
             fontColor: '#333'
           },
@@ -234,7 +237,7 @@
             callbacks: {
               title: function(data, index) {
                   //Return value for title
-                  return 't = ' + data[0].index + ' ms';
+                  return '               t = ' + data[0].index + ' ms';
               },
             }
           },
@@ -251,7 +254,7 @@
           title: {
             padding: 10,
             display: true,
-            text: "MOS (E-model)",
+            text: "Zavisnost ocene MOS od verovatnoce gubitaka paketa Ppl",
             fontSize: 25,
             fontColor: '#333'
           },
@@ -259,7 +262,7 @@
             yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'R',
+                labelString: 'MOS',
                 color: 'black',
                 fontSize: 15
               },
