@@ -7,6 +7,6 @@ RUN apk update && \
     pip install --no-cache-dir -r requirements.txt
 
 # final configuration
-ENV FLASK_APP=main3.py
+ENV FLASK_APP=main.py
 EXPOSE 8001
 CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8001"]
