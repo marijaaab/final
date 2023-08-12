@@ -1,23 +1,7 @@
 from flask import Flask, render_template, request
 import calc
 
-
 app = Flask(__name__, template_folder='.')
-
-
-def generate_charts(filename):
-    x_data = []
-    y_data = []
-    with open(filename, 'r') as f:
-        for line in f:
-            columns = line.split(",")
-            x_data.append(columns[0])
-            y_data.append(columns[1].split('\n')[0])
-    x = ','.join(x_data)
-    y = ','.join(y_data)
-    dataR = {'xOsa': x, 'yOsa': y}
-    return dataR
-
 
 @app.route('/')
 def index():

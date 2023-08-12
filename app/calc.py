@@ -24,10 +24,10 @@ def calculate():
     Pr = 35                 # Room noise at the receive side [dB(A)]
     A = 0                   # Advantage factor
 
-    # Calculate R and MOS for t between 0 and 1000
+    # Calculate R and MOS for each t between 0 and 1000
     T = [t for t in range(0, 1000, 1)]
 
-    # Defube empty lists
+    # Define empty lists
     Ie_eff = []
 
     R1 = []     # for Ppl = 0%
@@ -156,7 +156,7 @@ def calculate():
 
         MOS4.append(MOSp4)
 
+    # Send the results of calculation (dataR) to the main.py
     dataR = {'xOsa': T, 'yOsa1': R1, 'yOsa2': R2, 'yOsa3': R3, 'yOsa4': R4, 'MOS1': MOS1, 'MOS2': MOS2, 'MOS3': MOS3, 'MOS4': MOS4}
-
     return dataR
 
