@@ -1,7 +1,7 @@
 FROM python:3.8.10-alpine
 
 # install app & dependencies, run the update
-WORKDIR /my-app/
+WORKDIR /app/
 COPY app/ requirements.txt .
 RUN apk update && \
     pip install --no-cache-dir -r requirements.txt

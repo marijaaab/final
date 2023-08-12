@@ -21,11 +21,8 @@ def generate_charts(filename):
 
 @app.route('/')
 def index():
-    data2021 = generate_charts('oi2021.txt')
-    data2016 = generate_charts('oi2016.txt')
-    data2012 = generate_charts('oi2012.txt')
     dataR = calc.calculate()
-    return render_template('index.html', dataR=dataR, data2021=data2021, data2016=data2016, data2012=data2012)
+    return render_template('index.html', dataR=dataR)
 
 
 @app.route('/aboutApp')
@@ -43,4 +40,4 @@ def about_author():
     return render_template('aboutauthor.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

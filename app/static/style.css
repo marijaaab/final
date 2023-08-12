@@ -76,18 +76,11 @@ canvas {
 }
 
 .card {
+    margin: 0 auto;
     height: 100%;
     padding: 10px;
     border: 1px solid black;
     color: black;
-}
-
-.card.marija {
-    flex-direction: row;
-}
-
-.card-img-top.marija{
-    width: 30%;
 }
 
 .card-title{

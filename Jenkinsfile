@@ -4,25 +4,26 @@ pipeline {
             label 'python'
         }
     }
-    
+    environment {
+        CONTAINER_PORT = '8001'
+    }
+
     parameters {
         string(name: 'IMAGE_NAME', defaultValue: 'final-test', description: 'Name of Docker image')
         string(name: 'IMAGE_VERSION', defaultValue: 'latest', description: 'Version of Docker image (example: v1 / 1.0.0 / latest ...')
         string(name: 'CONTAINER_NAME', defaultValue: 'final-test-app', description: 'Name of Docker container')
         string(name: 'HOST_PORT', defaultValue: '8001', description: 'Host port for exposing the container')
-        string(name: 'CONTAINER_PORT', defaultValue: '8001', description: 'Container port for the application')
     }
-    
-    stages {      
-        
-        stage ("Build Docker image") {  
-            steps {   
-                script { 
+
+    stages {
+        stage ("Build Docker image") {
+            steps {
+                script {
                     sh "docker build -t ${params.IMAGE_NAME}:${params.IMAGE_VERSION} ."
-                }          
+                }
             }
         }
-        
+
         stage ("Run Docker container") {
             steps {
                 script {
@@ -30,9 +31,9 @@ pipeline {
                     if (containerExists) {
                         sh "docker stop ${params.CONTAINER_NAME}"
                         sh "docker rm ${params.CONTAINER_NAME}"
-                        sh "docker image prune --force"  
+                        sh "docker image prune --force"
                     }
-                    sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${params.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
+                    sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                 }
             }
         }

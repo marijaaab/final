@@ -33,37 +33,28 @@
       <div style="color:black">
         <h1>About this application</h1>
         <p style="color:white">This app is made using Flask (Python). The graphic which is generated on the main page represents the </p>
-        <img src="static/images/skica3.png" usemap="#imagemap" style="height:500px; border:none">
+        <img src="static/images/WorkFlow-PhotoRoom.png-PhotoRoom.png" usemap="#imagemap" style="height:500px; border:none">
         <map name="imagemap">
-          <area shape="rect" coords="190,118,441,471" data-info="GitHub repository" onclick="aboutGitHub()">
-          <area shape="rect" coords="24,238,99,324" data-info="Developer" onclick="aboutDeveloper()">
-          <area shape="rect" coords="512,116,724,459" data-info="Jenkins" onclick="aboutJenkins()">
-          <area shape="rect" coords="812,194,934,369" data-info="AWS EC2" onclick="aboutEC2()">
-          <area shape="rect" coords="935,194,1144,248" data-info="AWS EC2" onclick="aboutEC2()">
-          <area shape="rect" coords="935,248,1108,334" data-info="Application" onclick="aboutApplication()">
-          <area shape="rect" coords="934,336,1144,369" data-info="AWS EC2" onclick="aboutEC2()">
-          <area shape="rect" coords="1109,249,1144,334" data-info="AWS EC2" onclick="aboutEC2()">
-          <!-- add more areas here -->
+          <area shape="rect" coords="260,110,430,350" data-info="GitHub repository" onclick="aboutGitHub()">
+          <area shape="rect" coords="50,168,110,280" data-info="Developer" onclick="aboutDeveloper()">
+          <area shape="rect" coords="615,133,773,340" data-info="Jenkins" onclick="aboutJenkins()">
+          <area shape="rect" coords="1018,172,1191,290" data-info="Application" onclick="aboutApplication()">
         </map>
         <div id="tooltip"></div>
-<!--        <div id="info"></div>-->
       </div>
     </main>
     <script>
       function aboutGitHub() {
-        alert("This is a GitHub repository which contains all the source code of the application, as well as the Dockerfile and Jenkinsfile");
+        alert("This is a GitHub repository which contains all the source code of the application, as well as the Dockerfile and Jenkinsfile.");
       }
       function aboutDeveloper() {
-        alert("This is a developer. She is working on a code and when she is happy with the changes she made, she pushed her code to the GitHub repository.");
-      }
-      function aboutEC2() {
-        alert("This is an EC2 instance which is hosted on AWS.");
+        alert("This is a developer. He is working on a code and when he is happy with the changes he made, he pushes his code to the GitHub repository.");
       }
       function aboutJenkins() {
-        alert("This is a Jenkins server. This is where the code is automatically built on each push to the GitHub repo. After the code is built, the application is deployed to the Docker container inside the EC2 AWS instance.");
+        alert("This is a Jenkins server, hosted inside the Docker container. You can visit this server by accessing http://localhost:8000. This is where the code is automatically built on each push to the GitHub repo. After the code is built, the application is deployed inside another Docker container on local machine.");
       }
       function aboutApplication() {
-        alert("This is your application which is located inside the Docker container, and that Docker container is running on the AWS EC2 instance. You can see the content of your web application by accessing http://<ip_address_of_ec2_instance>:<dedicated_port>");
+        alert("This is your application hosted using Flask server inside the Docker container. You can see the content of your web application by accessing http://localhost:8001");
       }
       const areas = document.getElementsByTagName('area');
       const tooltip = document.getElementById('tooltip');

@@ -37,12 +37,6 @@
             <div class="carousel-item">
               <canvas id="myChartMOS"></canvas>
             </div>
-            <div class="carousel-item">
-              <canvas id="myChart2016"></canvas>
-            </div>
-            <div class="carousel-item">
-              <canvas id="myChart2012"></canvas>
-            </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -53,7 +47,6 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-<!--        <img src="{{ filename }}" alt="My Graphic">-->
     </main>
     <script>
 
@@ -68,20 +61,7 @@
       const MOS3 = dataR['MOS3'];
       const MOS4 = dataR['MOS4'];
 
-      var data2021 = JSON.parse('{{ data2021 | tojson | safe}}');
-      var data2016 = JSON.parse('{{ data2016 | tojson | safe}}');
-      var data2012 = JSON.parse('{{ data2012 | tojson | safe}}');
-      var xValues2021 = data2021.xOsa.split(',');
-      var xValues2016 = data2016.xOsa.split(',');
-      var xValues2012 = data2012.xOsa.split(',');
-      var yValues2021 = data2021.yOsa.split(',');
-      var yValues2016 = data2016.yOsa.split(',');
-      var yValues2012 = data2012.yOsa.split(',');
-      var barColors = ["red", "green","blue","orange","brown","yellow","pink","gray","darkblue","turquoise","limegreen","magenta",
-                        "silver", "maroon", "white", "olive", "purple", "aqua", "burlywood", "chartreuse", "teal",
-                        "coral", "lightgray", "crimson", "lightcoral","powderblue", "gold"];
-
-      var chart = new Chart("myChartR", {
+      new Chart("myChartR", {
         type: "line",
         data: {
           labels: xValues,
@@ -294,85 +274,6 @@
               }
             }]
           },
-        }
-      });
-
-      new Chart("myChart2016", {
-        type: "bar",
-        data: {
-          labels: xValues2016,
-          datasets: [{
-            backgroundColor: barColors,
-            data: yValues2016,
-            borderWidth: 1,
-            borderColor: '#333'
-          }]
-        },
-        options: {
-          layout: {padding: 20},
-          legend: {display: false},
-          title: {
-            padding: 10,
-            display: true,
-            text: "Olympic Games 2016 Rio - TOP 15 Total Number of medals",
-            fontSize: 16,
-            fontColor: '#333'
-          },
-          scales: {
-            yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  fontColor: '#333'
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                  fontColor: '#333'
-                }
-            }]
-          }
-        },
-        chartArea: {
-          backgroundColor: 'white'
-        }
-      });
-      new Chart("myChart2012", {
-        type: "bar",
-        data: {
-          labels: xValues2012,
-          datasets: [{
-            backgroundColor: barColors,
-            data: yValues2012,
-            borderWidth: 1,
-            borderColor: '#333'
-          }]
-        },
-        options: {
-          layout: {padding: 20},
-          legend: {display: false},
-          title: {
-            padding: 10,
-            display: true,
-            text: "Olympic Games 2012 London - TOP 15 Total Number of medals",
-            fontSize: 16,
-            fontColor: '#333'
-          },
-          scales: {
-            yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  fontColor: '#333'
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                  fontColor: '#333'
-                }
-            }]
-          }
-        },
-        chartArea: {
-          backgroundColor: 'white'
         }
       });
     </script>

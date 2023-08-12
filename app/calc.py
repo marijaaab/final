@@ -1,44 +1,44 @@
 import math
 
 def calculate():
-    SLR = 8
-    RLR = 2
-    OLR = SLR + RLR
-    STMR = 15
-    LSTR = 18
-    Ds = 3
-    Dr = 3
-    # TELR = 65.0
-    TELR = 65
-    WEPL = 110
-    # T = 0.0
-    # Tr = 0.0
-    # Ta = 0.0
-    sT = 1
-    mT = 100
-    qdu = 1
-    Ie = 0
-    Bpl = 4.3
-    Ppl = [0, 1, 2, 3]
-    BurstR = 1
-    Nc = -70
-    Nfor = -64
-    Ps = 35
-    Pr = 35
-    A = 0
+    # Default values of parameters
+    SLR = 8                 # Send loudness rating [dB]
+    RLR = 2                 # Receive loudness rating [dB]
+    OLR = SLR + RLR         # Overall loudness rating [dB]
+    STMR = 15               # Sidetone masking rating [dB]
+    LSTR = 18               # Listener sidetone rating [dB]
+    Ds = 3                  # D-Value of telephone, send side
+    Dr = 3                  # D-Value of telephone, receive side
+    TELR = 65               # Talker echo loudness rating [dB]
+    WEPL = 110              # Weighted echo path loss [dB]
+    sT = 1                  # Delay sensitivity
+    mT = 100                # Minimum perceivable delay [ms]
+    qdu = 1                 # Number of quantization distortion units
+    Ie = 0                  # Equipment impairment factor
+    Bpl = 4.3               # Packet-loss robustness factor
+    Ppl = [0, 1, 2, 3]      # Random packet-loss probability [%]
+    BurstR = 1              # Burst ratio
+    Nc = -70                # Circuit noise referred to 0 dBr-point [dBm0p]
+    Nfor = -64              # Noise floor at the receive side [dBmp]
+    Ps = 35                 # Room noise at the send side [dB(A)]
+    Pr = 35                 # Room noise at the receive side [dB(A)]
+    A = 0                   # Advantage factor
+
+    # Calculate R and MOS for t between 0 and 1000
     T = [t for t in range(0, 1000, 1)]
-    # T = 0
+
+    # Defube empty lists
     Ie_eff = []
 
-    R1 = []
-    R2 = []
-    R3 = []
-    R4 = []
+    R1 = []     # for Ppl = 0%
+    R2 = []     # for Ppl = 1%
+    R3 = []     # for Ppl = 2%
+    R4 = []     # for Ppl = 3%
 
-    MOS1 = []
-    MOS2 = []
-    MOS3 = []
-    MOS4 = []
+    MOS1 = []   # for Ppl = 0%
+    MOS2 = []   # for Ppl = 1%
+    MOS3 = []   # for Ppl = 2%
+    MOS4 = []   # for Ppl = 3%
 
     for t in T:
         Ta = t
@@ -107,16 +107,12 @@ def calculate():
             Ie_eff.append(Ie+(95-Ie)*(Ppl[i]/(Ppl[i]/BurstR+Bpl)))
 
         Rp1 = Ro - Is - Id - Ie_eff[0] + A
-        # print(R)
         R1.append(Rp1)
         Rp2 = Ro - Is - Id - Ie_eff[1] + A
-        # print(R)
         R2.append(Rp2)
         Rp3 = Ro - Is - Id - Ie_eff[2] + A
-        # print(R)
         R3.append(Rp3)
         Rp4 = Ro - Is - Id - Ie_eff[3] + A
-        # print(R)
         R4.append(Rp4)
 
 
@@ -160,7 +156,7 @@ def calculate():
 
         MOS4.append(MOSp4)
 
-    dataR = {'xOsa': T, 'yOsa1': R1, 'yOsa2': R2, 'yOsa3': R3, 'yOsa4': R4, 'MOS1': MOS1, 'MOS2': MOS2, 'MOS3': MOS3, 'MOS4': MOS4,}
+    dataR = {'xOsa': T, 'yOsa1': R1, 'yOsa2': R2, 'yOsa3': R3, 'yOsa4': R4, 'MOS1': MOS1, 'MOS2': MOS2, 'MOS3': MOS3, 'MOS4': MOS4}
 
     return dataR
 
