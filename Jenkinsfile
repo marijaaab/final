@@ -1,17 +1,22 @@
 pipeline {
+    
+    // Define on which agent the build is going to run.
     agent {
         node {
             label 'python'
         }
     }
-    environment {
-        CONTAINER_PORT = '8001'
-    }
 
+    // Define environment variables.
+    environment {
+        CONTAINER_PORT = '8001' // This port is exposed for use.
+    }
+    
+    // Define parameters.
     parameters {
-        string(name: 'IMAGE_NAME', defaultValue: 'final-test', description: 'Name of Docker image')
+        string(name: 'IMAGE_NAME', defaultValue: 'my-image', description: 'Name of Docker image')
         string(name: 'IMAGE_VERSION', defaultValue: 'latest', description: 'Version of Docker image (example: v1 / 1.0.0 / latest ...')
-        string(name: 'CONTAINER_NAME', defaultValue: 'final-test-app', description: 'Name of Docker container')
+        string(name: 'CONTAINER_NAME', defaultValue: 'my-app', description: 'Name of Docker container')
         string(name: 'HOST_PORT', defaultValue: '8001', description: 'Host port for exposing the container')
     }
 
@@ -23,7 +28,6 @@ pipeline {
                 }
             }
         }
-
         stage ("Run Docker container") {
             steps {
                 script {
@@ -62,8 +66,10 @@ pipeline {
     }
     
     post { 
+        // This action will happen only if the build is successful
         success { 
             println("The image is built and container is up! Visit: " + "http://localhost:${params.HOST_PORT}")
+            // Add badge to the build
             addShortText(text: " ${params.IMAGE_NAME}:${params.IMAGE_VERSION} ", background: '#Ee98d3', borderColor: 'black', border: 1)
         }
     }
