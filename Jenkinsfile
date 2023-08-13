@@ -27,7 +27,10 @@ pipeline {
         stage ("Run Docker container") {
             steps {
                 script {
-                    def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${params.CONTAINER_NAME}").trim()
+                    println("lalala")
+                    def containerExistsOutput = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim()
+                    def containerExists = containerExistsOutput == 'false' ? false : containerExistsOutput
+                    println(containerExists)
                     if (containerExists) {
                         def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
                         print(currentImageId)
