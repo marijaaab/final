@@ -53,7 +53,7 @@ pipeline {
                             sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                         }
                     } else {
-                        println("KONTEJNER NE POSTOJI)
+                        println("KONTEJNER NE POSTOJI")
                         sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                     }
                 }
