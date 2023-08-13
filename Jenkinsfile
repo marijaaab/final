@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     println("lalala")
-                    def containerExistsOutput = sh(returnStdout: true, script: "docker ps  --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim()
+                    def containerExistsOutput = sh(returnStdout: true, script: "docker ps -a  --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim()
                     def containerExists = containerExistsOutput == 'false' ? false : containerExistsOutput
                     println(containerExists)
                     if (containerExists) {
