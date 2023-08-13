@@ -30,7 +30,9 @@ pipeline {
                     def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${params.CONTAINER_NAME}").trim()
                     if (containerExists) {
                         def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
+                        print(currentImageId)
                         def containerImageId = sh(returnStdout: true, script: "docker inspect --format='{{.Image}}' ${params.CONTAINER_NAME}").trim()
+                        print(containerImageId)
                         if (currentImageId == containerImageId) {
                             println("No changes detected in the image. Keeping the existing container running.")
                         } else {
