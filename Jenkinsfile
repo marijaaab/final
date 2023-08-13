@@ -32,20 +32,28 @@ pipeline {
                     def containerExists = containerExistsOutput == 'false' ? false : containerExistsOutput
                     println(containerExists)
                     if (containerExists) {
+                        println("KONTEJNER POSTOJI")
                         def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
-                        print(currentImageId)
+                        println("STARI IMAGE")
+                        println(currentImageId)
                         def containerImageId = sh(returnStdout: true, script: "docker inspect --format='{{.Image}}' ${params.CONTAINER_NAME} | cut -d ':' -f 2 | cut -c 1-12").trim()
-                        print(containerImageId)
+                        println("NOVI IMAGE")
+                        println(containerImageId)
                         def containerStatus = sh(returnStdout: true, script: "docker inspect -f '{{.State.Status}}' ${params.CONTAINER_NAME}").trim()
+                        println("STATUS KONTEJNERA")
+                        println(containerStatus)
                         if (currentImageId == containerImageId || containerStatus == "running") {
+                            println("ILI JE ISTI IMAGE ILI JE VEC POKRENUT KONTEJNER SA ISTIM IMENOM")
                             println("No changes detected in the image. Keeping the existing container running.")
                         } else {
+                            println("NIJE ISTI IMAGE ILI KONTEJNER NE TRCI")
                             sh "docker stop ${params.CONTAINER_NAME}"
                             sh "docker rm ${params.CONTAINER_NAME}"
                             sh "docker image prune --force"
                             sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                         }
                     } else {
+                        println("KONTEJNER NE POSTOJI)
                         sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                     }
                 }
