@@ -27,13 +27,19 @@ pipeline {
         stage ("Run Docker container") {
             steps {
                 script {
+                    def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
+                    def containerImageId = sh(returnStdout: true, script: "docker inspect --format='{{.Image}}' ${params.CONTAINER_NAME}").trim()
                     def containerExists = sh(returnStdout: true, script: "docker ps -a --format '{{.Names}}' | grep ${params.CONTAINER_NAME}").trim()
                     if (containerExists) {
-                        sh "docker stop ${params.CONTAINER_NAME}"
-                        sh "docker rm ${params.CONTAINER_NAME}"
-                        sh "docker image prune --force"
-                    }
-                    sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
+                        if (currentImageId == containerImageId) {
+                            println("No changes detected in the image. Keeping the existing container running.")
+                        } else {
+                            sh "docker stop ${params.CONTAINER_NAME}"
+                            sh "docker rm ${params.CONTAINER_NAME}"
+                            sh "docker image prune --force"
+                        }
+                        sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
+                    }    
                 }
             }
         }
