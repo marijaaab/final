@@ -22,13 +22,17 @@
     <main>
       <div class="aboutApp">
         <h1>About this application</h1>
-        <p style="color:white">This app is made using Flask (Python). The graphic which is generated on the main page represents the </p>
+        <br>
+        <p style="color:white">Here is the picture of workflow used to build and deploy this application. Feel free to click on any part of the workflow you are interested in, to find out more.</p>
         <img src="static/images/AppWorkFlow.png" usemap="#imagemap" alt="Workflow">
         <map name="imagemap">
           <area shape="rect" coords="260,110,430,350" data-info="GitHub repository" onclick="aboutGitHub()">
           <area shape="rect" coords="50,168,110,280" data-info="Developer" onclick="aboutDeveloper()">
           <area shape="rect" coords="615,133,773,340" data-info="Jenkins" onclick="aboutJenkins()">
           <area shape="rect" coords="1018,172,1191,290" data-info="Application" onclick="aboutApplication()">
+          <area shape="rect" coords="195,376,508,403" data-info="Go to GitHub repo" onclick="window.open('https://github.com/marijaaab/master_rad','_blank')">
+          <area shape="rect" coords="615,376,797,403" data-info="Go to Jenkins server" onclick="window.open('http://localhost:8000','_blank')">
+          <area shape="rect" coords="1018,376,1201,403" data-info="Go to Application" onclick="window.open('http://localhost:8001','_blank')">
         </map>
         <div id="tooltip"></div>
       </div>
