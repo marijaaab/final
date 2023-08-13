@@ -27,40 +27,33 @@ pipeline {
         stage ("Run Docker container") {
             steps {
                 script {
-                    println("lalala")
                     def containerExistsOutput = sh(returnStdout: true, script: "docker ps -a  --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim()
                     def containerExists = containerExistsOutput == 'false' ? false : containerExistsOutput
-                    println(containerExists)
+                    println("Container exists? " + containerExists)
                     if (containerExists) {
-                        println("KONTEJNER POSTOJI")
-                        def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
-                        println("STARI IMAGE")
-                        println(currentImageId)
-                        def containerImageId = sh(returnStdout: true, script: "docker inspect --format='{{.Image}}' ${params.CONTAINER_NAME} | cut -d ':' -f 2 | cut -c 1-12").trim()
-                        println("NOVI IMAGE")
-                        println(containerImageId)
                         def containerStatus = sh(returnStdout: true, script: "docker inspect -f '{{.State.Status}}' ${params.CONTAINER_NAME}").trim()
-                        println("STATUS KONTEJNERA")
-                        println(containerStatus)
+                        println("What is the status of the container? " + containerStatus)
+                        def currentImageId = sh(returnStdout: true, script: "docker images -q ${params.IMAGE_NAME}:${params.IMAGE_VERSION}").trim()
+                        println("Current image ID: " + currentImageId)
+                        def containerImageId = sh(returnStdout: true, script: "docker inspect --format='{{.Image}}' ${params.CONTAINER_NAME} | cut -d ':' -f 2 | cut -c 1-12").trim()
+                        println("New image ID: " + containerImageId)
                         if (currentImageId == containerImageId) {
-                            println("IMAGE JE ISTI")
+                            println("The image is the same.")
                             if (containerStatus == "running") {
-                                println("VEC JE POKRENUT KONTEJNER SA ISTIM IMENOM")
                                 println("No changes detected in the image. Keeping the existing container running.")
                             } else {
-                                println("POSTOJI ZAUSTAVLJEN KONTEJNER SA ISTIM IMENOM")
+                                println("There is a container with the same name, but it is not running. Let's remove it and start it again...")
                                 sh "docker rm ${params.CONTAINER_NAME}"
                                 sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                             }
                         } else {
-                            println("NIJE ISTI IMAGE")
+                            println("Two versions of the image are not the same. Let's stop and remove the container using the old image, and then deploy a new one...")
                             sh "docker stop ${params.CONTAINER_NAME}"
                             sh "docker rm ${params.CONTAINER_NAME}"
                             sh "docker image prune --force"
                             sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                         }
                     } else {
-                        println("KONTEJNER NE POSTOJI")
                         sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
                     }
                 }
