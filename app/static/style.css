@@ -75,6 +75,15 @@ canvas {
     margin: 0 auto;
 }
 
+.aboutApp {
+    color: black;
+}
+
+.aboutApp img {
+    height:500px;
+    border:none;
+}
+
 .card {
     margin: 0 auto;
     height: 100%;

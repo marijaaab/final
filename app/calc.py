@@ -1,14 +1,13 @@
 import math
 
 def calculate():
-    # Default values of parameters
+    # Default values in ITU-T recommendation G.107
     SLR = 8                 # Send loudness rating [dB]
     RLR = 2                 # Receive loudness rating [dB]
     OLR = SLR + RLR         # Overall loudness rating [dB]
     STMR = 15               # Sidetone masking rating [dB]
     LSTR = 18               # Listener sidetone rating [dB]
     Ds = 3                  # D-Value of telephone, send side
-    Dr = 3                  # D-Value of telephone, receive side
     TELR = 65               # Talker echo loudness rating [dB]
     WEPL = 110              # Weighted echo path loss [dB]
     sT = 1                  # Delay sensitivity
@@ -18,7 +17,7 @@ def calculate():
     Bpl = 4.3               # Packet-loss robustness factor
     Ppl = [0, 1, 2, 3]      # Random packet-loss probability [%]
     BurstR = 1              # Burst ratio
-    Nc = -70                # Circuit noise referred to 0 dBr-point [dBm0p]
+    Nc = -70                # Circuit noise referred to 0 dBr point [dBm0p]
     Nfor = -64              # Noise floor at the receive side [dBmp]
     Ps = 35                 # Room noise at the send side [dB(A)]
     Pr = 35                 # Room noise at the receive side [dB(A)]
@@ -27,28 +26,31 @@ def calculate():
     # Calculate R and MOS for each t between 0 and 1000
     T = [t for t in range(0, 1000, 1)]
 
-    # Define empty lists
+    # Effective equipment impairment factor
     Ie_eff = []
 
+    # Transmission rating factor
     R1 = []     # for Ppl = 0%
     R2 = []     # for Ppl = 1%
     R3 = []     # for Ppl = 2%
     R4 = []     # for Ppl = 3%
 
+    # Mean opinion score
     MOS1 = []   # for Ppl = 0%
     MOS2 = []   # for Ppl = 1%
     MOS3 = []   # for Ppl = 2%
     MOS4 = []   # for Ppl = 3%
 
     for t in T:
-        Ta = t
-        Tr = 2*t
-        Nfo = Nfor + RLR
-        Pre = Pr + 10 * math.log10(1+math.pow(10, ((10-LSTR)/10)))/math.log10(10)
-        Nor = RLR - 121 + Pre + 0.008 * math.pow((Pre - 35), 2)
-        Nos = Ps - SLR - Ds - 100 + 0.004 * math.pow((Ps - OLR - Ds - 14), 2)
-        No = 10*math.log10(math.pow(10, (Nc/10)) + math.pow(10, (Nos/10)) + math.pow(10, (Nor/10)) + math.pow(10, (Nfo/10)))
-        Ro = 15 - (1.5 * (SLR + No))
+        Ta = t              # Absolute delay in echo-free connections
+        Tr = 2*t            # Round-trip delay in a 4-wire loop
+        Nfo = Nfor + RLR    # Noise floor at the receive side [dBm0p]
+        Pre = Pr + 10 * math.log10(1+math.pow(10, ((10-LSTR)/10)))/math.log10(10)     # Effective room noise [dBm0p]
+        Nor = RLR - 121 + Pre + 0.008 * math.pow((Pre - 35), 2)         # Equivalent circuit noise at the 0 dBr point [dBm0p]
+        Nos = Ps - SLR - Ds - 100 + 0.004 * math.pow((Ps - OLR - Ds - 14), 2)       # Equivalent circuit noise at the 0 dBr point [dBm0p]
+        No = 10*math.log10(math.pow(10, (Nc/10)) + math.pow(10, (Nos/10)) + math.pow(10, (Nor/10))
+                           + math.pow(10, (Nfo/10)))    # Power addition of different noise sources
+        Ro = 15 - (1.5 * (SLR + No))        # Signal-to-noise ratio
 
         if qdu < 1:
             Q = 37 - 15 * math.log10(1) / math.log10(10)
@@ -60,12 +62,13 @@ def calculate():
         Y = (Ro-100)/15+46/8.4-G/9
 
         Xolr = OLR + 0.2 * (64 + No - RLR)
-        Iolr = 20*(math.pow(1 + math.pow(Xolr/8, 8), 1/8) - Xolr/8)
+        Iolr = 20*(math.pow(1 + math.pow(Xolr/8, 8), 1/8) - Xolr/8)           # Decrease in quality caused by too-low values of OLR
         STMRo = -10 * math.log10(math.pow(10, (-STMR/10))+math.exp(-t/4) * math.pow(10, (-TELR/10)))
-        Ist = 12*math.pow(1+pow((STMRo-13)/6, 8), 1/8)-28*math.pow(1+math.pow((STMRo+1)/19.4, 35), 1/35)-13*math.pow(1+math.pow((STMRo-3)/33, 13), 1/13)+29
-        Iq = 15 * math.log10(1 + math.pow(10, Y) + math.pow(10, Z))
+        Ist = (12*math.pow(1+pow((STMRo-13)/6, 8), 1/8)-28*math.pow(1+math.pow((STMRo+1)/19.4, 35), 1/35)
+               -13*math.pow(1+math.pow((STMRo-3)/33, 13), 1/13)+29)         # Impairment caused by non-optimum sidetone
+        Iq = 15 * math.log10(1 + math.pow(10, Y) + math.pow(10, Z))     # impairment caused by quantizing distortion
 
-        Is = Iolr + Ist + Iq
+        Is = Iolr + Ist + Iq        # Simultaneous impairment factor
 
         Rle = 10.5 * (WEPL + 7) * math.pow((Tr + 1), -0.25)
         if Ta == 0:
@@ -74,11 +77,12 @@ def calculate():
             X = (math.log10(Ta/100))/(math.log10(2))
 
         if Ta <= 100:
+            # Impairment caused by too-long absolute delay Ta
             Idd = 0
         else:
             Idd = 25 * (math.pow(1 + math.pow(X, 6), 1 / 6) - 3 * math.pow(1 + math.pow(X / 3, 6), 1 / 6)+2)
 
-        Idle = (Ro-Rle)/2 + math.sqrt((math.pow(Ro-Rle, 2))/4+169)
+        Idle = (Ro-Rle)/2 + math.sqrt((math.pow(Ro-Rle, 2))/4+169)      # Impairments due to listener echo
         TERV = TELR-40*math.log10((1+t/10)/(1+t/150))+6*math.exp(-0.3*math.pow(t, 2))
         TERVs = TERV + (Ist/2)
 
@@ -93,12 +97,14 @@ def calculate():
 
 
         if t < 1:
+            # Impairments due to the talker echo
             Idte = 0
         else:
             Idte = ((Roe-Re) / 2 + math.sqrt(math.pow(Roe-Re, 2) / 4 + 100)-1)*(1 - math.exp(-t))
 
         if STMR > 20:
             Idtes = math.sqrt((math.pow(Idte, 2)) + (math.pow(Ist, 2)))
+            # Delay impairment factor
             Id = Idtes + Idle + Idd
         else:
             Id = Idte + Idle + Idd

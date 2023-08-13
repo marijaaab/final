@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 import calc
 
 app = Flask(__name__, template_folder='.')
@@ -24,4 +24,4 @@ def about_author():
     return render_template('aboutauthor.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
