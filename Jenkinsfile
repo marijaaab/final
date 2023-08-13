@@ -31,8 +31,7 @@ pipeline {
         stage ("Run Docker container") {
             steps {
                 script {
-                    def containerExistsOutput = sh(returnStdout: true, script: "docker ps -a  --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim()
-                    def containerExists = containerExistsOutput == 'false' ? false : containerExistsOutput
+                    def containerExists = sh(returnStdout: true, script: "docker ps -a  --format '{{.Names}}' | grep ${params.CONTAINER_NAME} || echo 'false'").trim() != 'false'
                     println("Container exists? " + containerExists)
                     if (containerExists) {
                         def containerStatus = sh(returnStdout: true, script: "docker inspect -f '{{.State.Status}}' ${params.CONTAINER_NAME}").trim()
