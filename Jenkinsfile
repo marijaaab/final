@@ -42,11 +42,18 @@ pipeline {
                         def containerStatus = sh(returnStdout: true, script: "docker inspect -f '{{.State.Status}}' ${params.CONTAINER_NAME}").trim()
                         println("STATUS KONTEJNERA")
                         println(containerStatus)
-                        if (currentImageId == containerImageId || containerStatus == "running") {
-                            println("ILI JE ISTI IMAGE ILI JE VEC POKRENUT KONTEJNER SA ISTIM IMENOM")
-                            println("No changes detected in the image. Keeping the existing container running.")
+                        if (currentImageId == containerImageId) {
+                            println("IMAGE JE ISTI")
+                            if (containerStatus == "running") {
+                                println("VEC JE POKRENUT KONTEJNER SA ISTIM IMENOM")
+                                println("No changes detected in the image. Keeping the existing container running.")
+                            } else {
+                                println("POSTOJI ZAUSTAVLJEN KONTEJNER SA ISTIM IMENOM")
+                                sh "docker rm ${params.CONTAINER_NAME}"
+                                sh "docker run -d --name ${params.CONTAINER_NAME} -p ${params.HOST_PORT}:${env.CONTAINER_PORT} ${params.IMAGE_NAME}:${params.IMAGE_VERSION}"
+                            }
                         } else {
-                            println("NIJE ISTI IMAGE ILI KONTEJNER NE TRCI")
+                            println("NIJE ISTI IMAGE")
                             sh "docker stop ${params.CONTAINER_NAME}"
                             sh "docker rm ${params.CONTAINER_NAME}"
                             sh "docker image prune --force"
