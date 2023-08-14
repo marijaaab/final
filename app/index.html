@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>My WebApp</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
     <link rel="icon" href="static/images/heart.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
@@ -24,17 +25,19 @@
       </nav>
     </header>
     <main>
-      <h1>Welcome!</h1>
-      <p style="color:white;font-size:20px">Mean one-way delay (<b>t</b>) and packet-loss probability (<b>Ppl</b>) impact
-        on transmission rating factor (<b>R</b>) and mean opinion score (<b>MOS</b>) estimation, based on <b>E</b> model</p>
-      <p style="color:white;font-size:20px">Coder used in calculation: G.711.</p>
+      <h1>Welcome! 😃</h1>
+      <br>
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <canvas id="myChartR"></canvas>
+              <p class="pagetext">Mean one-way delay (<b>t</b>) and packet-loss probability (<b>Ppl</b>) impact
+                on transmission rating factor (<b>R</b>), based on <b>E</b> model</p>
             </div>
             <div class="carousel-item">
               <canvas id="myChartMOS"></canvas>
+              <p class="pagetext">Mean one-way delay (<b>t</b>) and packet-loss probability (<b>Ppl</b>) impact
+                on Mean Opinion Score (<b>MOS</b>) estimation, based on <b>E</b> model</p>
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -46,6 +49,7 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
+      <p class="pagetext">Coder used in calculation: <b>G.711</b></p>
     </main>
     <script>
       var dataR = JSON.parse('{{ dataR | tojson }}');
@@ -123,7 +127,7 @@
           title: {
             padding: 10,
             display: true,
-            text: "Zavisnost R ocene od verovatnoce gubitaka paketa Ppl",
+            text: "Transmission rating factor (R)",
             fontSize: 25,
             fontColor: '#333'
           },
@@ -230,7 +234,7 @@
           title: {
             padding: 10,
             display: true,
-            text: "Zavisnost MOS ocene od verovatnoce gubitaka paketa Ppl",
+            text: "Mean Opinion Score (MOS) estimation",
             fontSize: 25,
             fontColor: '#333'
           },
